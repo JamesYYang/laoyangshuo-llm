@@ -4,6 +4,7 @@ const agent = new https.Agent({ rejectUnauthorized: false, keepAlive: true, })
 const config = require('./config')
 const qf_token = require('./qf-token')
 
+
 let wenxin_embedding = async (txt) => {
   let token = await qf_token.refreshToken()
 
