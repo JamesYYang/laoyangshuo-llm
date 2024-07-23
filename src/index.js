@@ -4,21 +4,29 @@ const token = require('./qf-token')
 const wenxin = require('./qf-llm')
 const lcHelper = require('./langchainHelper')
 const _ = require('lodash')
+const https = require('https')
+https.globalAgent = new https.Agent({ rejectUnauthorized: false, keepAlive: true, })
+
 
 let main = async()=>{
-  // let t = await token.refreshToken()
+  wenxin.initVectorDB()
+  console.log('init vector db finished')
 
-  // console.log(t)
 
-  // let text = `前几天看了一篇风叔的文章，里面提到了中国人熟悉的一句话：一命二运三风水，四积阴德五读书，今天我也说说我对这句话的看法。`
+  // let data = await lcHelper.loadText()
+  // let output = _.slice(data, 0, 20)
 
-  // let embedding = await wenxin.embedding(text)
+  // console.log('load docs finished')
+  // // console.log(JSON.stringify(output, null, 2))
 
-  // console.log(JSON.stringify(embedding, null, 2))
+  // let ids = await wenxin.addDocs(output)
 
-  let data = await lcHelper.loadText(`${__dirname}/test-documents/health-about-sports.md`)
-  let output = _.slice(data, 0, 20)
-  console.log(JSON.stringify(output, null, 2))
+  // console.log('add docs to vector dbs')
+
+  // console.log(ids)
+
+  let queryResponse = await wenxin.queryDocs('提问技巧')
+  console.log(queryResponse)
 }
 
 main().then(() => console.log('program exists')).catch((err) => console.log(err))

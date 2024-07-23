@@ -1,0 +1,7 @@
+@host=localhost:8000
+
+GET http://{{host}}/api/v1/collections
+
+
+###
+GET http://{{host}}/api/v1/collections/73c258ce-862e-4f0f-95ce-709d24dd1f97/count
