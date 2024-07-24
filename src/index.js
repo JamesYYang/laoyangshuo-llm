@@ -5,7 +5,6 @@ const wenxin = require('./qf-llm')
 const lcHelper = require('./langchainHelper')
 const _ = require('lodash')
 const https = require('https')
-https.globalAgent = new https.Agent({ rejectUnauthorized: false, keepAlive: true, })
 
 
 let main = async()=>{
@@ -25,8 +24,11 @@ let main = async()=>{
 
   // console.log(ids)
 
-  let queryResponse = await wenxin.queryDocs('提问技巧')
-  console.log(queryResponse)
+  // let queryResponse = await wenxin.queryDocs('提问技巧')
+  // console.log(queryResponse)
+
+  let chatRes = await wenxin.chatWenxin()
+  console.log(chatRes)
 }
 
 main().then(() => console.log('program exists')).catch((err) => console.log(err))

@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@langchain/baidu-qianfan": "^0.0.1",
     "@langchain/community": "^0.2.20",
     "axios": "^1.7.2",
     "chromadb": "^1.8.1",

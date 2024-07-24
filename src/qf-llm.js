@@ -5,6 +5,8 @@ const config = require('./config')
 const qf_token = require('./qf-token')
 const { BaiduQianfanEmbeddings } = require('@langchain/community/embeddings/baidu_qianfan')
 const { Chroma } = require('@langchain/community/vectorstores/chroma')
+const { ChatBaiduQianfan } = require('@langchain/baidu-qianfan')
+const { HumanMessage } = require('@langchain/core/messages')
 
 let vectorStore
 
@@ -45,13 +47,24 @@ let addDocs = async (docs) => {
   return ids
 }
 
-let queryDocs = async(query) => {
+let queryDocs = async (query) => {
   const filteredResponse = await vectorStore.similaritySearch(query, 2)
   return filteredResponse
+}
+
+let chatWenxin = async () => {
+  let llm = new ChatBaiduQianfan({ modelName: 'ERNIE-Bot-4' })
+
+  const message = new HumanMessage("成都明天天气");
+
+  let res = await llm.invoke([message])
+
+  return res
 }
 
 module.exports = {
   initVectorDB: initVectorDB,
   addDocs: addDocs,
-  queryDocs: queryDocs
+  queryDocs: queryDocs,
+  chatWenxin: chatWenxin
 }
