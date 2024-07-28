@@ -2,6 +2,8 @@
 
 GET http://{{host}}/api/v1/collections
 
+###
+GET http://{{host}}/api/v1/collections/1c901542-8e9b-4111-970e-e5d46676a1a4/count
 
 ###
-GET http://{{host}}/api/v1/collections/73c258ce-862e-4f0f-95ce-709d24dd1f97/count
+DELETE http://{{host}}/api/v1/collections/laoyangshuo

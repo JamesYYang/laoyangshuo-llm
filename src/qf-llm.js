@@ -8,6 +8,10 @@ const { Chroma } = require('@langchain/community/vectorstores/chroma')
 const { ChatBaiduQianfan } = require('@langchain/baidu-qianfan')
 const { HumanMessage } = require('@langchain/core/messages')
 
+const { createStuffDocumentsChain } = require("langchain/chains/combine_documents")
+const { PromptTemplate } = require("@langchain/core/prompts")
+const { createRetrievalChain } = require('langchain/chains/retrieval')
+
 let vectorStore
 
 let wenxin_embedding = async (txt) => {
@@ -48,7 +52,7 @@ let addDocs = async (docs) => {
 }
 
 let queryDocs = async (query) => {
-  const filteredResponse = await vectorStore.similaritySearch(query, 2)
+  const filteredResponse = await vectorStore.similaritySearch(query, 3)
   return filteredResponse
 }
 
@@ -62,9 +66,41 @@ let chatWenxin = async () => {
   return res
 }
 
+let rag = async (question) => {
+  let template = `
+使用以下上下文来回答最后的问题。如果你不知道答案，就说你不知道，不要试图编造答案。最多使用三句话。尽量使答案简明扼要。
+总是在回答的最后说“谢谢你的提问！”。
+{context}
+问题: {input}
+  `
+
+  let prompt = new PromptTemplate({
+    template: template,
+    inputVariables: ['context', 'input']
+  })
+
+  let llm = new ChatBaiduQianfan({ modelName: 'ERNIE-Bot-4' })
+
+  const combineDocsChain = await createStuffDocumentsChain({
+    llm,
+    prompt,
+  })
+
+  const retriever = vectorStore.asRetriever({ k: 6 })
+
+  const retrievalChain = await createRetrievalChain({
+    combineDocsChain,
+    retriever,
+  })
+
+  let response = await retrievalChain.invoke({ input: question })
+  return response
+}
+
 module.exports = {
   initVectorDB: initVectorDB,
   addDocs: addDocs,
   queryDocs: queryDocs,
-  chatWenxin: chatWenxin
+  chatWenxin: chatWenxin,
+  RAG: rag
 }

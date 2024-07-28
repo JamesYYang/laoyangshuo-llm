@@ -6,28 +6,35 @@ const lcHelper = require('./langchainHelper')
 const _ = require('lodash')
 const https = require('https')
 
+let sleep = (s) => {
+  return new Promise((resolve) => setTimeout(resolve, s * 1000))
+}
 
-let main = async()=>{
+
+let main = async () => {
   wenxin.initVectorDB()
   console.log('init vector db finished')
 
 
   // let data = await lcHelper.loadText()
-  // let output = _.slice(data, 0, 20)
-
   // console.log('load docs finished')
-  // // console.log(JSON.stringify(output, null, 2))
 
-  // let ids = await wenxin.addDocs(output)
+  // while (data.length > 0) {
+  //   let output = _.take(data, 20)
 
-  // console.log('add docs to vector dbs')
+  //   let ids = await wenxin.addDocs(output)
+  //   console.log(ids)
+  //   data = _.drop(data, 20)
+  //   console.log(`add ${output.length} docs to vector dbs, left ${data.length}`)
+  //   await sleep(2)
+  // }
 
-  // console.log(ids)
+  let question = '如何做一个产品？'
 
-  // let queryResponse = await wenxin.queryDocs('提问技巧')
-  // console.log(queryResponse)
+  let queryResponse = await wenxin.queryDocs(question)
+  console.log(queryResponse)
 
-  let chatRes = await wenxin.chatWenxin()
+  let chatRes = await wenxin.RAG(question)
   console.log(chatRes)
 }
 
