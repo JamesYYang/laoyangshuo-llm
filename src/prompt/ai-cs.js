@@ -46,9 +46,6 @@ let aiCSEmail = async ()=>{
 }
 
 let doJob = async () => {
-  // await emotionAnalysis()
-
-  // await productReviewAnalysis()
 
   await aiCSEmail()
 }
