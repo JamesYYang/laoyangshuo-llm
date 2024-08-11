@@ -1,8 +1,5 @@
-require('dotenv').config()
-
-const { ChatBaiduQianfan } = require('@langchain/baidu-qianfan')
 const { PromptTemplate } = require("@langchain/core/prompts")
-const { StringOutputParser, JsonOutputParser } = require("@langchain/core/output_parsers")
+const {getCompletion} = require('../util')
 
 let review = `
 他们在11月份的季节性销售期间以约49美元的价格出售17件套装，折扣约为一半。\
@@ -36,11 +33,7 @@ let aiCSEmail = async ()=>{
 
   let output = await promptTemplate.invoke({ review: review })
 
-  let llm = new ChatBaiduQianfan({ modelName: 'ERNIE-Bot-4' })
-
-  let parser = new StringOutputParser()
-
-  let res = await llm.pipe(parser).invoke(output)
+  let res = await getCompletion(output)
 
   console.log(res)
 }

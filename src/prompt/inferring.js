@@ -1,8 +1,6 @@
-require('dotenv').config()
-
-const { ChatBaiduQianfan } = require('@langchain/baidu-qianfan')
 const { PromptTemplate } = require("@langchain/core/prompts")
 const { StringOutputParser, JsonOutputParser } = require("@langchain/core/output_parsers")
+const { getCompletion } = require("../util")
 
 let lamp_review = `
   我需要一盏漂亮的卧室灯，这款灯具有额外的储物功能，价格也不算太高。\
@@ -35,9 +33,7 @@ let emotionAnalysis = async () => {
 
   let output = await promptTemplate.invoke({ lamp_review: lamp_review })
 
-  let llm = new ChatBaiduQianfan({ modelName: 'ERNIE-Bot-4' })
-
-  let res = await llm.invoke(output)
+  let res = await getCompletion(output)
 
   console.log(res)
 }
@@ -58,12 +54,7 @@ let productReviewAnalysis = async () => {
     `)
 
   let output = await promptTemplate.invoke({ lamp_review: lamp_review })
-
-  let llm = new ChatBaiduQianfan({ modelName: 'ERNIE-Bot-4' })
-
-  let parser = new JsonOutputParser()
-
-  let res = await llm.pipe(parser).invoke(output)
+  let res = await getCompletion(output, new JsonOutputParser())
 
   console.log(res)
 }
@@ -81,13 +72,7 @@ let subjectAnalysis = async ()=>{
     `)
 
   let output = await promptTemplate.invoke({ story: story })
-
-  let llm = new ChatBaiduQianfan({ modelName: 'ERNIE-Bot-4' })
-
-  let parser = new JsonOutputParser()
-
-  let res = await llm.pipe(parser).invoke(output)
-
+  let res = await getCompletion(output, new JsonOutputParser())
   console.log(res)
 }
 
