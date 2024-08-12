@@ -16,6 +16,19 @@ let getCompletion = async (messages, parser = new StringOutputParser(),
   return res
 }
 
+
+let getLLM = (model = 'ERNIE-Bot-4', temperature = 0) => {
+
+  if (!wenxin) {
+    wenxin = new ChatBaiduQianfan({ modelName: model, temperature: temperature })
+  }
+
+  return wenxin
+
+}
+
+
 module.exports = {
-  getCompletion: getCompletion
+  getCompletion: getCompletion,
+  getLLM: getLLM
 }
