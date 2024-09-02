@@ -11,7 +11,7 @@ const {getLLM} = require('../util')
 let doJob = async () => {
 
   const loader = new CheerioWebBaseLoader(
-    "https://jamesyyang.github.io/2024/05/26/product-make-it-happen/",
+    "https://jamesyyang.github.io/2023/07/31/AI-how-to-use/",
     {
       selector: ".post-content",
     }
@@ -23,7 +23,7 @@ let doJob = async () => {
     chunkSize: 500,
     chunkOverlap: 100,
   })
-  
+
   const splits = await textSplitter.splitDocuments(docs)
 
   const embeddings = new BaiduQianfanEmbeddings()
@@ -59,12 +59,11 @@ let doJob = async () => {
   const retriever = vectorStore.asRetriever({ k: 6 })
 
   const retrievalChain = await createRetrievalChain({
-    combineDocsChain,
     retriever,
-    outputParser: new StringOutputParser(),
+    combineDocsChain,
   })
 
-  let response = await retrievalChain.invoke({ input: '什么决定了产品的成败？' })
+  let response = await retrievalChain.invoke({ input: '如何利用AI提升自己的工作效率' })
   console.log(response)
 
 }
