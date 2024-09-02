@@ -10,9 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@langchain/baidu-qianfan": "^0.0.1",
+    "@langchain/baidu-qianfan": "^0.0.3",
     "@langchain/community": "^0.2.20",
     "axios": "^1.7.2",
+    "cheerio": "^1.0.0",
     "chromadb": "^1.8.1",
     "dotenv": "^16.4.5",
     "langchain": "^0.2.10",
