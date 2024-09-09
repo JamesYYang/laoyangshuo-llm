@@ -1,6 +1,6 @@
 const { StringOutputParser } = require("@langchain/core/output_parsers")
 const { PromptTemplate } = require("@langchain/core/prompts")
-const { RunnableLambda } = require('@langchain/core/runnables')
+const { RunnableLambda, RunnableSequence } = require('@langchain/core/runnables')
 const { getLLM } = require('../util')
 
 let getCompanyName = () => {
@@ -39,5 +39,20 @@ let doJob = async () => {
   console.log(res)
 }
 
+let doJob2 = async () => {
 
-doJob().then(() => console.log('program exists')).catch((err) => console.log(err))
+  let composeChain = RunnableSequence.from([
+    {
+      company_name: getCompanyName()
+    },
+    getCompanyIntro()
+  ])
+
+  let res = await composeChain.invoke()
+
+  console.log(res)
+}
+
+
+// doJob().then(() => console.log('program exists')).catch((err) => console.log(err))
+doJob2().then(() => console.log('program exists')).catch((err) => console.log(err))

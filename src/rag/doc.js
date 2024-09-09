@@ -27,10 +27,13 @@ let doJob = async () => {
   const splits = await textSplitter.splitDocuments(docs)
 
   const embeddings = new BaiduQianfanEmbeddings()
+  
   const vectorStore = await MemoryVectorStore.fromDocuments(
     splits,
     embeddings
   )
+
+  const retriever = vectorStore.asRetriever({ k: 6 })
 
   // vectorStore = new Chroma(embedding, {
   //   collectionName: "laoyangshuo",
@@ -56,7 +59,7 @@ let doJob = async () => {
     prompt,
   })
 
-  const retriever = vectorStore.asRetriever({ k: 6 })
+  
 
   const retrievalChain = await createRetrievalChain({
     retriever,
